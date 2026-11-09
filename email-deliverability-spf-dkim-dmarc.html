@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Email Deliverability Basics: SPF, DKIM and DMARC in Plain English | BizMasterPro</title><meta name="description" content="What SPF, DKIM and DMARC actually do, what Gmail and Yahoo now require from senders, and a simple setup checklist so your emails reach the inbox."><link rel="canonical" href="https://bizmasterpro.store/email-deliverability-spf-dkim-dmarc.html">
+<meta property="og:title" content="Email Deliverability Basics: SPF, DKIM and DMARC in Plain English | BizMasterPro"><meta property="og:description" content="What SPF, DKIM and DMARC actually do, what Gmail and Yahoo now require from senders, and a simple setup checklist so your emails reach the inbox.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://api.fontshare.com"><link href="https://api.fontshare.com/v2/css?f[]=zodiak@400,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Email Deliverability Basics: SPF, DKIM and DMARC in Plain English", "datePublished": "2026-10-21", "description": "What SPF, DKIM and DMARC actually do, what Gmail and Yahoo now require from senders, and a simple setup checklist so your emails reach the inbox.", "publisher": {"@type": "Organization", "name": "BizMasterPro"}}</script></head><body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head"><div class="wrap"><a class="logo" href="index.html" aria-label="BizMasterPro home"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" stroke="currentColor" stroke-width="2"/><path d="M11.5 9h6a3.5 3.5 0 0 1 0 7h-6zM11.5 16h7a3.5 3.5 0 0 1 0 7h-7z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M11.5 8v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>BizMasterPro</a>
+<nav aria-label="Main"><ul><li class="hide-xs"><a href="index.html">Home</a></li><li class="hide-xs"><a href="blog.html" aria-current=page>Articles</a></li><li class=""><a href="stack.html">Free stack</a></li><li class=""><a href="debt.html">Debt check</a></li></ul></nav></div></header>
+<main id="main"><div class="wrap"><header class="page-head"><p class="eyebrow">tools</p>
+<h1>Email Deliverability Basics: SPF, DKIM and DMARC in Plain English</h1><p class="lede">What SPF, DKIM and DMARC actually do, what Gmail and Yahoo now require from senders, and a simple setup checklist so your emails reach the inbox.</p>
+<p class="byline">October 21, 2026 · 3 min read</p></header>
+<div class="article-layout"><article class="prose"><p class="disclosure">Disclosure: BizMasterPro is reader-supported. Some links are affiliate links, and we may earn a commission if you sign up for a paid plan, at no extra cost to you.</p><p>You can write a great email and still lose it to the spam folder. Since February 2024, Gmail and Yahoo have required senders to prove their emails are really from them (<a href="https://support.google.com/a/answer/81126">Google</a>, <a href="https://senders.yahooinc.com/best-practices/">Yahoo</a>). That proof comes from three DNS records: SPF, DKIM and DMARC. Here's what each one does and how to set them up without a technical background.</p>
+<h2>The three records in one sentence each</h2>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>What it does</th>
+<th>Everyday comparison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SPF</strong></td>
+<td>Lists which servers are allowed to send email for your domain</td>
+<td>A guest list at the door</td>
+</tr>
+<tr>
+<td><strong>DKIM</strong></td>
+<td>Adds a digital signature showing the email wasn't changed in transit</td>
+<td>A tamper-proof seal on an envelope</td>
+</tr>
+<tr>
+<td><strong>DMARC</strong></td>
+<td>Tells inboxes what to do when SPF or DKIM checks fail, and sends you reports</td>
+<td>Instructions for the bouncer</td>
+</tr>
+</tbody>
+</table>
+<p>All three are text records you add in your domain's DNS settings, wherever you bought or manage your domain.</p>
+<h2>SPF: who's allowed to send</h2>
+<p>SPF (Sender Policy Framework) is a single record listing the services allowed to send email from your domain, such as your email marketing platform and your regular inbox provider. When an email arrives, the receiving server checks whether it came from one of them.</p>
+<p><strong>Watch out for:</strong> having more than one SPF record. Your domain should have one SPF record that includes every service you use.</p>
+<h2>DKIM: proof the email wasn't changed</h2>
+<p>DKIM (DomainKeys Identified Mail) signs every email with a private key. The matching public key lives in your DNS. If the signature checks out, the receiving server knows the email really came from your domain and wasn't altered.</p>
+<p>Your email platform generates the DKIM record for you. You copy it into your DNS settings.</p>
+<h2>DMARC: the rulebook</h2>
+<p>DMARC (Domain-based Message Authentication, Reporting and Conformance) ties SPF and DKIM to the address people actually see in the "From" line, and tells inboxes what to do if a message fails:</p>
+<ul>
+<li><code>p=none</code>: deliver it anyway, but send me reports. This is the usual starting point.</li>
+<li><code>p=quarantine</code>: send failing messages to spam.</li>
+<li><code>p=reject</code>: block failing messages entirely.</li>
+</ul>
+<p>Both Google and Yahoo accept <code>p=none</code> as a starting policy for bulk senders.</p>
+<h2>What Gmail and Yahoo require</h2>
+<p><strong>All senders to Gmail</strong> must set up SPF or DKIM, use a secure (TLS) connection, and keep reported spam rates below 0.3% (<a href="https://support.google.com/a/answer/81126">Google</a>). Google recommends setting up all three records.</p>
+<p><strong>Bulk senders</strong>, which Google defines as more than 5,000 messages a day to Gmail accounts, must also (<a href="https://support.google.com/a/answer/81126">Google</a>):</p>
+<ul>
+<li>Set up both SPF and DKIM</li>
+<li>Publish a DMARC policy (it can be set to <code>none</code>)</li>
+<li>Make sure the "From" domain aligns with the SPF or DKIM domain</li>
+<li>Support one-click unsubscribe and show a clearly visible unsubscribe link in marketing emails</li>
+</ul>
+<p>Yahoo's rules are similar: a DMARC policy of at least <code>p=none</code> that passes, one-click unsubscribe, a spam rate below 0.3%, and honoring unsubscribes within 2 days (<a href="https://senders.yahooinc.com/best-practices/">Yahoo</a>).</p>
+<p>Even if your list is small, setting everything up now means you won't have to fix it later.</p>
+<h2>Setup checklist</h2>
+<ol>
+<li><strong>Send from your own domain.</strong> Use an address like hello@yourbusiness.com, not a free Gmail or Yahoo address. Free addresses can't pass DMARC alignment when sent through a marketing platform.</li>
+<li><strong>Find the authentication settings</strong> in your email platform. They're usually under sender settings or domain settings.</li>
+<li><strong>Copy the records it gives you</strong> (typically SPF, DKIM and sometimes a verification record) into your domain's DNS.</li>
+<li><strong>Add a DMARC record</strong>, starting with <code>p=none</code>. A basic one looks like <code>v=DMARC1; p=none; rua=mailto:you@yourbusiness.com</code>.</li>
+<li><strong>Wait and verify.</strong> DNS changes can take a few hours. Most platforms show a green check when records pass.</li>
+<li><strong>Send a test</strong> to a Gmail account, open the message, choose "Show original" and look for "PASS" next to SPF, DKIM and DMARC.</li>
+</ol>
+<h2>Habits that keep you out of spam</h2>
+<ul>
+<li><strong>Only email people who signed up.</strong> Never buy lists.</li>
+<li><strong>Make unsubscribing easy.</strong> It's better than a spam complaint.</li>
+<li><strong>Send what you promised.</strong> If people signed up for weekly tips, don't switch to daily sales emails.</li>
+<li><strong>Remove inactive subscribers</strong> every few months.</li>
+<li><strong>Follow CAN-SPAM.</strong> Include your postal address and honor opt-outs. Our <a href="welcome-email-sequence-examples.html">welcome sequence guide</a> covers the legal basics.</li>
+</ul>
+<p>Most email platforms walk you through these settings. If you're setting up your first list, our <a href="build-first-email-funnel.html">first email funnel guide</a> covers the rest, and you can <a href="https://systeme.io">start on a free plan</a>.</p></article>
+<aside><div class='box accent'><h3>Get the $0 Automation Stack</h3><p>The free playbook for replacing six paid tools with one, plus templates you can copy.</p><a class='btn' href='stack-guide.html'>Get the free stack</a></div></aside></div>
+<section class="band"><h2 style="font-size:var(--text-xl)">Keep reading</h2><div class="grid"><a class='card' href='automate-client-onboarding-freelance.html'><span class='meta'>tools</span><h3>How to Automate Client Onboarding for a Freelance Business</h3></a><a class='card' href='tags-vs-lists-email-contacts.html'><span class='meta'>tools</span><h3>Tags vs. Lists vs. Segments: How to Organize Your Email Contacts</h3></a><a class='card' href='move-email-list-new-platform.html'><span class='meta'>tools</span><h3>How to Move Your Email List to a New Platform Without Losing Subscribers</h3></a></div></section></div></main>
+<footer><div class="wrap cols"><div><a class="logo" href="index.html"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" stroke="currentColor" stroke-width="2"/><path d="M11.5 9h6a3.5 3.5 0 0 1 0 7h-6zM11.5 16h7a3.5 3.5 0 0 1 0 7h-7z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M11.5 8v16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>BizMasterPro</a><p style="margin-top:1rem;max-width:44ch">Spend less on tools. Owe less on cards. Keep more of what you earn.</p>
+<p>BizMasterPro · Mailing address on request</p></div>
+<div><ul><li><a href="blog.html">Articles</a></li><li><a href="stack.html">The $0 Automation Stack</a></li><li><a href="debt.html">Debt relief check</a></li></ul></div>
+<div><ul><li><a href="disclosures.html">Disclosures</a></li><li><a href="privacy.html">Privacy</a></li><li>© 2026 BizMasterPro</li></ul></div></div></footer>
+</body></html>
